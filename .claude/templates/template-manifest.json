@@ -1,0 +1,23 @@
+{
+  "$schema": "workshop-template-snapshot-v1",
+  "source": "Local workshop template set",
+  "sourceRevision": "workshop-v1",
+  "techStack": "dotnet-api",
+  "purpose": "Small local template set for source-to-generated inspection",
+  "completeProduct": false,
+  "generatedCounterpart": ".claude/",
+  "bootstrapCommand": ".claude/commands/bootstrap.md",
+  "files": [
+    "dotnet-api/CLAUDE.md.tmpl",
+    "dotnet-api/anti-patterns.md.tmpl",
+    "dotnet-api/agents/testing-manager.md.tmpl",
+    "dotnet-api/agents/feature-implementation.md.tmpl",
+    "dotnet-api/agents/qa-review.md.tmpl",
+    "dotnet-api/agents/git-manager.md.tmpl",
+    "dotnet-api/skills/feature-start.md.tmpl",
+    "dotnet-api/skills/retro.md.tmpl",
+    "dotnet-api/skills/pr-create.md.tmpl",
+    "dotnet-api/workflows/feature-workflow.md.tmpl",
+    "universal/skills/sync-bootstrap.md"
+  ]
+}

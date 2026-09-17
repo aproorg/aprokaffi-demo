@@ -1,0 +1,25 @@
+{
+  "$schema": "bootstrap-manifest-v1",
+  "generatedAt": "2026-09-11T00:00:00Z",
+  "pluginRevision": "44c3472a641776a82e8d8b88f014e9400bf12640",
+  "techStack": "dotnet-api",
+  "projectState": "existing-without-config",
+  "componentsInstalled": ["agents", "skills", "workflows", "claude-md", "anti-patterns"],
+  "files": [
+    {"path": "CLAUDE.md", "source": "templates/dotnet-api/CLAUDE.md.tmpl", "state": "generated"},
+    {"path": ".claude/anti-patterns.md", "source": "templates/dotnet-api/anti-patterns.md.tmpl", "state": "generated"},
+    {"path": ".claude/agents/testing-manager.md", "source": "templates/dotnet-api/agents/testing-manager.md.tmpl", "state": "generated"},
+    {"path": ".claude/agents/feature-implementation.md", "source": "templates/dotnet-api/agents/feature-implementation.md.tmpl", "state": "generated"},
+    {"path": ".claude/agents/qa-review.md", "source": "templates/dotnet-api/agents/qa-review.md.tmpl", "state": "generated"},
+    {"path": ".claude/agents/git-manager.md", "source": "templates/dotnet-api/agents/git-manager.md.tmpl", "state": "generated"},
+    {"path": ".claude/skills/feature-start/SKILL.md", "source": "templates/dotnet-api/skills/feature-start.md.tmpl", "state": "generated"},
+    {"path": ".claude/skills/retro/SKILL.md", "source": "templates/dotnet-api/skills/retro.md.tmpl", "state": "generated"},
+    {"path": ".claude/skills/pr-create/SKILL.md", "source": "templates/dotnet-api/skills/pr-create.md.tmpl", "state": "generated"},
+    {"path": ".claude/skills/sync-bootstrap/SKILL.md", "source": "templates/universal/skills/sync-bootstrap.md", "state": "generated"},
+    {"path": ".claude/workflows/feature-workflow.md", "source": "templates/dotnet-api/workflows/feature-workflow.md.tmpl", "state": "generated"}
+  ],
+  "userOwnedFiles": ["api-project/"],
+  "changedGeneratedFiles": [".claude/anti-patterns.md"],
+  "preservedFiles": [],
+  "skippedFiles": ["unrelated stack templates", "bugfix and refactor workflows", "merge-conflict handling"]
+}

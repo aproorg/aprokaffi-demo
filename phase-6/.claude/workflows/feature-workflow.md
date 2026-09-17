@@ -2,8 +2,6 @@
 
 This workflow makes the handoffs and gates visible for the `PATCH /tasks/{id}/complete` story.
 
-It is the orchestration layer after bootstrap. The local `/bootstrap` command creates the project guidance and `.claude/` files. `/feature-start` reads this workflow and uses the named agents for the feature work.
-
 ## 1. Source the request
 
 Read the prepared GitHub issue through the GitHub MCP. Return the requested behaviour, explicit out-of-scope items, missing decisions, and likely files to inspect. Treat the result as source material, not as a truth oracle.
@@ -29,7 +27,7 @@ Pass the approved criteria and test specification to `feature-implementation`. K
 
 ## 5. Verification and independent QA
 
-Run `dotnet test api-project/DemoTaskApi.sln`. Then delegate to `qa-review` with a clean context. Fix only small findings live. Otherwise switch to the corresponding rehearsal checkpoint and name the recovery point.
+Run `dotnet test api-project/DemoTaskApi.sln`. Then delegate to `qa-review` with a clean context. Fix only small findings live. Otherwise record the recovery point.
 
 ## 6. Project pull request
 
@@ -37,4 +35,5 @@ Run `/pr-create` or the git-manager agent. Include the criteria, test result, QA
 
 ## 7. Retrospective
 
-Run `/retro`. Classify lessons before changing files. Update local rules for local lessons. Update the corresponding file under `.claude/templates/` only after the classification is approved. Prepare a separate reviewed template PR for a generalizable lesson.
+Run `/retro`. Classify lessons before changing files. Update local rules for local lessons. Prepare a separate reviewed marketplace PR for a generalizable lesson.
+

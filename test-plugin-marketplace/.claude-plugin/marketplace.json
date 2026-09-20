@@ -1,0 +1,13 @@
+{
+  "name": "test-plugin-marketplace",
+  "owner": {
+    "name": "Apró kaffi workshop demo"
+  },
+  "plugins": [
+    {
+      "name": "workshop-bootstrap",
+      "source": "./workshop-bootstrap",
+      "description": "Analyzes an empty project and generates a ticket-to-verified-feature Claude Code workflow (skills, agents, and CLAUDE.md) scoped to that project's actual stack and conventions."
+    }
+  ]
+}

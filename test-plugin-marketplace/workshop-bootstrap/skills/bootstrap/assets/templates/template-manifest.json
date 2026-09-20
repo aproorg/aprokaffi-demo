@@ -1,0 +1,44 @@
+{
+  "$schema": "bootstrap-template-set-v1",
+  "purpose": "Stack-agnostic ticket-to-verified-feature workflow, instantiated per project by the bootstrap skill",
+  "generatedCounterpart": ".claude/ and CLAUDE.md at the target project's root",
+  "variables": {
+    "project_name": "Short project/repo name, e.g. \"DemoTaskApi\". Read from the manifest file (package.json/*.csproj/pyproject.toml/etc.) or the repo directory name if none is found.",
+    "project_description": "One sentence: what the project is and its stack, e.g. \".NET 9 minimal API with an in-memory task and owner service.\"",
+    "build_command": "The command that builds/compiles the project, if the stack has one. Empty string if not applicable (e.g. plain scripts).",
+    "test_command": "The command that runs the full test suite.",
+    "test_filter_example": "An example of the same test command scoped to a single test or test class, in whatever syntax the project's test framework actually uses.",
+    "run_command": "The command that runs the project locally, if applicable.",
+    "architecture_notes": "Multi-paragraph prose, written after reading the actual codebase: composition/entry point, how state/data flows, key conventions a contributor must match. This is generated content, not a lookup value — there is no sensible generic default.",
+    "test_conventions": "Prose describing how this project organizes and runs tests: framework(s), levels (unit/integration/e2e), naming and folder conventions, discovered by reading existing tests. If no tests exist yet, describe the most idiomatic default for the detected stack instead of leaving this blank.",
+    "security_context_description": "One or two sentences scoping what's actually security-relevant about this project's shape — does it have auth, persistence, external input, secrets — so verification-agent knows which OWASP Top 10 categories are worth checking instead of mechanically checking all ten.",
+    "ticket_source_description": "Which issue tracker this project's tickets come from and how to fetch one (e.g. \"Jira, via the connected atlassian MCP server\" or \"GitHub Issues, via the gh CLI\"), discovered from the project's connected MCP servers or explicitly asked of the user if none are configured.",
+    "template_repo_location": "Where this template set actually lives, from this generated project's point of view — a git remote URL in a real deployment, or a relative path if the template repo happens to be a local sibling (as it is in this demo: ../test-plugin-marketplace)."
+  },
+  "files": [
+    "CLAUDE.md.tmpl",
+    "agents/implementation-agent.md.tmpl",
+    "agents/feature-planner.md.tmpl",
+    "agents/feature-implementer.md.tmpl",
+    "agents/test-implementer.md.tmpl",
+    "agents/verification-agent.md.tmpl",
+    "agents/retro-agent.md.tmpl",
+    "skills/implement-jira-ticket/SKILL.md.tmpl",
+    "skills/feature-orchestrator/SKILL.md.tmpl",
+    "skills/feature-implementation/SKILL.md.tmpl",
+    "skills/test-implementation/SKILL.md.tmpl"
+  ],
+  "generatedFileMap": {
+    "CLAUDE.md.tmpl": "CLAUDE.md",
+    "agents/implementation-agent.md.tmpl": ".claude/agents/implementation-agent.md",
+    "agents/feature-planner.md.tmpl": ".claude/agents/feature-planner.md",
+    "agents/feature-implementer.md.tmpl": ".claude/agents/feature-implementer.md",
+    "agents/test-implementer.md.tmpl": ".claude/agents/test-implementer.md",
+    "agents/verification-agent.md.tmpl": ".claude/agents/verification-agent.md",
+    "agents/retro-agent.md.tmpl": ".claude/agents/retro-agent.md",
+    "skills/implement-jira-ticket/SKILL.md.tmpl": ".claude/skills/implement-jira-ticket/SKILL.md",
+    "skills/feature-orchestrator/SKILL.md.tmpl": ".claude/skills/feature-orchestrator/SKILL.md",
+    "skills/feature-implementation/SKILL.md.tmpl": ".claude/skills/feature-implementation/SKILL.md",
+    "skills/test-implementation/SKILL.md.tmpl": ".claude/skills/test-implementation/SKILL.md"
+  }
+}

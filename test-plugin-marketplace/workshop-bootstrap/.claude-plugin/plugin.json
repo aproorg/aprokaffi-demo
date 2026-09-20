@@ -1,0 +1,5 @@
+{
+  "name": "workshop-bootstrap",
+  "description": "Generates a project-scoped ticket-to-verified-feature Claude Code workflow from a stack-agnostic template set.",
+  "version": "0.1.0"
+}

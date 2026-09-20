@@ -1,0 +1,65 @@
+---
+name: implement-jira-ticket
+description: >
+  Implements a feature or fix in this project directly from a ticket key or URL. Reads the
+  ticket's summary and description through the connected issue-tracker MCP server, then
+  makes the requested code change with matching tests. Use this any time the user
+  references a ticket and wants it implemented, built, or picked up — including phrasing
+  like "implement PROJ-123", "can you pick up this ticket", "build what's described in
+  <ticket link>", or "start on the ticket I just linked". Do not use this for work that has
+  no ticket reference, or for changes unrelated to this project.
+---
+
+## What this does
+
+Takes a ticket as the single source of truth for a change, and turns it into working code
+plus tests — without expanding past what the ticket actually asks for. The point of routing
+through a ticket instead of a freeform description is that the ticket is the contract: if
+it doesn't say something, that's a signal to ask, not to guess.
+
+## Ticket source
+
+{{ticket_source_description}}
+
+## Process
+
+1. **Resolve the ticket.** Extract the issue key from whatever was given. Use the ticket
+   source above to fetch the issue's summary, description, and any comments. If no ticket
+   source is configured, stop and tell the user — don't fabricate ticket content from the
+   key alone.
+
+2. **Extract the actual scope.** Read the description as the acceptance criteria. Note
+   explicitly:
+   - What must change.
+   - What the ticket explicitly excludes — treat exclusions as binding, not as suggestions.
+   - Anything the ticket leaves unstated that your implementation will have to decide one
+     way or another (an edge case, a status/error choice, idempotency behavior, etc.).
+
+3. **If something load-bearing is unstated, ask before implementing.** Treat silently
+   inventing behavior for an undecided case as a bug in the process, even if the choice
+   seems obviously reasonable. Surface the open question to the user in one or two
+   sentences and get a decision (or explicit permission to pick a default) before writing
+   code. Don't stall on truly cosmetic ambiguity — only pause for choices that would change
+   observable behavior.
+
+4. **Read the project's own conventions before writing anything.** This project's
+   `CLAUDE.md` documents its actual architecture and conventions. Match those patterns
+   exactly rather than introducing a new style.
+
+5. **Implement only what the ticket asks for.** Resist bundling in adjacent cleanup,
+   renames, or "while I'm here" improvements — even ones that would objectively improve the
+   code. If you notice something worth fixing that's out of scope, mention it at the end
+   instead of doing it.
+
+6. **Write tests matching this project's own conventions**, as documented in `CLAUDE.md`
+   under Tests — covering the happy path and every edge case from step 2, including the
+   not-found/invalid-input case.
+
+7. **Run the full suite before reporting done:**
+   ```bash
+   {{test_command}}
+   ```
+   If anything fails, fix it before finishing — don't hand back a red test suite.
+
+8. **Report back concisely**, referencing the ticket key, listing the files touched, and
+   flagging anything you deliberately left out as out-of-scope.

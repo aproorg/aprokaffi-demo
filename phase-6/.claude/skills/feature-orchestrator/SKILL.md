@@ -1,0 +1,69 @@
+---
+name: feature-orchestrator
+description: Runs a full ticket-to-verified-feature pipeline for DemoTaskApi — plans the implementation and tests on a strong reasoning model, executes both mechanically on cheap models, verifies the result against OWASP Top 10 and DRY, then runs a retrospective that proposes improvements to the pipeline itself. Use this any time a Jira ticket should go through the complete orchestrated workflow rather than being implemented directly or through a single skill/agent — this is the "whole pipeline" option, not a quick fix.
+---
+
+## What this does
+
+Coordinates five specialized subagents into one pipeline, so that the expensive reasoning
+work (planning) happens once, on a model capable of it, and the mechanical work
+(implementing the plan, writing the tests) happens cheaply and repeatably against a plan
+precise enough not to need further judgment. Verification and retrospective close the loop:
+one checks the result is actually good, the other checks whether the *pipeline* itself
+should improve.
+
+## Process
+
+1. **Resolve the ticket.** Given a ticket key or URL, fetch its summary, description, and
+   comments via the available Jira MCP tools. This is the only ticket fetch in the whole
+   pipeline — every step after this receives the ticket content as input rather than
+   re-fetching it.
+
+2. **Plan.** Spawn the `feature-planner` agent (opus), giving it the ticket content. It
+   returns an implementation plan, a test plan, and possibly open questions.
+
+   **If it returns any open question, stop here.** Surface it to the human exactly as
+   `feature-planner` phrased it and wait for a decision before continuing — don't let a
+   plan with an unresolved load-bearing question flow downstream to agents that can't ask
+   about it themselves.
+
+3. **Implement.** Spawn the `feature-implementer` agent (haiku), giving it the
+   implementation plan. It invokes the `feature-implementation` skill and returns the files
+   changed.
+
+4. **Test.** Spawn the `test-implementer` agent (haiku), giving it the test plan *and* the
+   files-changed summary from step 3 (tests need to be written against the real code, not
+   just the plan). It invokes the `test-implementation` skill and returns the tests added
+   plus the suite result.
+
+   If the suite doesn't pass at the end of this step, stop and report the failure — don't
+   proceed to verification against known-broken code.
+
+5. **Verify.** Spawn the `verification-agent`, giving it a summary of everything changed in
+   steps 3–4. It returns a pass/fail verdict and findings against OWASP Top 10 (where
+   relevant to this codebase) and DRY.
+
+6. **Retro.** Spawn the `retro-agent`, giving it a consolidated log of steps 1–5: the plans,
+   what each execution step actually did (including any gap it had to report), and the
+   verification findings. It returns what went well, what didn't (with root causes), and
+   proposed edits to the pipeline's own files.
+
+## Output
+
+Report to the human:
+
+- The ticket and a one-line summary of what it asked for.
+- The implementation plan and test plan (or the blocking question, if step 2 stopped).
+- Files changed and tests added.
+- The verification verdict and findings.
+- The retro's proposed improvements, clearly marked as proposals — not applied.
+
+## A note on cost
+
+Steps 3 and 4 are deliberately pinned to a cheap model, on the assumption that a
+sufficiently detailed plan needs no further reasoning to execute. Whether that assumption
+holds depends on the session's total connected tool surface fitting inside that model's
+context window — a heavily-tooled account/session can blow a small model's context on tool
+definitions alone, before it even reads the plan. If steps 3 or 4 fail immediately with a
+context/size error rather than a task-related one, that's the likely cause — verify the
+session's tool footprint before assuming the pipeline design is at fault.

@@ -1,0 +1,3 @@
+# test-plugin-marketplace is its own independent git repository (a stand-in for a
+# genuinely separate marketplace repo), not a submodule or part of this repo's history.
+test-plugin-marketplace/

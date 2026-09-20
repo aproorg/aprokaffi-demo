@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__jira-mcp__jira___get_issue",
+      "mcp__atlassian__getJiraIssue",
+      "Bash(dotnet test *)",
+      "Bash(dotnet build *)"
+    ]
+  }
+}

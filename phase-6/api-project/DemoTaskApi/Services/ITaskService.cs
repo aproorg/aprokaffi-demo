@@ -8,4 +8,5 @@ public interface ITaskService
     TaskItem? GetById(int id);
     TaskItem Create(string title, int? ownerId = null);
     List<TaskItem> GetByOwner(int ownerId);
+    TaskItem? UpdateStatus(int id, TaskItemStatus status);
 }

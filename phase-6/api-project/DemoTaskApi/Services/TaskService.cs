@@ -23,10 +23,20 @@ public class TaskService : ITaskService
         {
             Id = _nextId++,
             Title = title,
-            IsComplete = false,
+            Status = TaskItemStatus.Todo,
             OwnerId = ownerId
         };
         _tasks.Add(task);
+        return task;
+    }
+
+    public TaskItem? UpdateStatus(int id, TaskItemStatus status)
+    {
+        var task = GetById(id);
+        if (task is not null)
+        {
+            task.Status = status;
+        }
         return task;
     }
 

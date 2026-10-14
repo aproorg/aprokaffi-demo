@@ -1,3 +1,4 @@
+using DemoTaskApi.Models;
 using DemoTaskApi.Services;
 
 namespace DemoTaskApi.Tests;
@@ -14,6 +15,25 @@ public class TaskServiceTests
         Assert.Equal(1, task.Id);
         Assert.Equal("Test task", task.Title);
         Assert.False(task.IsComplete);
+    }
+
+    [Fact]
+    public void UpdateStatus_SetsStatusAndIsComplete()
+    {
+        var task = _service.Create("Test task");
+
+        _service.UpdateStatus(task.Id, TaskItemStatus.InProgress);
+        Assert.Equal(TaskItemStatus.InProgress, _service.GetById(task.Id)!.Status);
+        Assert.False(task.IsComplete);
+
+        _service.UpdateStatus(task.Id, TaskItemStatus.Done);
+        Assert.True(task.IsComplete);
+    }
+
+    [Fact]
+    public void UpdateStatus_UnknownId_ReturnsNull()
+    {
+        Assert.Null(_service.UpdateStatus(99, TaskItemStatus.Done));
     }
 
     [Fact]

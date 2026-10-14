@@ -36,6 +36,18 @@ app.MapPost("/tasks", (CreateTaskRequest request, ITaskService service, ITaskOwn
     return Results.Created($"/tasks/{task.Id}", task);
 });
 
+// PATCH /tasks/{id}/status — set a task's status (Todo, InProgress or Done)
+app.MapPatch("/tasks/{id:int}/status", (int id, UpdateTaskStatusRequest request, ITaskService service) =>
+{
+    if (!Enum.IsDefined(request.Status))
+    {
+        return Results.BadRequest("Invalid status");
+    }
+
+    var task = service.UpdateStatus(id, request.Status);
+    return task is not null ? Results.Ok(task) : Results.NotFound();
+});
+
 // POST /owners — create an owner
 app.MapPost("/owners", (CreateTaskOwnerRequest request, ITaskOwnerService owners) =>
 {

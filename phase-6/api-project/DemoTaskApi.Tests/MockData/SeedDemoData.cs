@@ -39,7 +39,7 @@ public class SeedDemoData
 
         // Alice: one completed task and one still open.
         var report = _tasks.Create("Write report", alice.Id);
-        report.IsComplete = true;
+        _tasks.UpdateStatus(report.Id, DemoTaskApi.Models.TaskItemStatus.Done);
         _tasks.Create("Review PR", alice.Id);
 
         // Bob intentionally owns no tasks.

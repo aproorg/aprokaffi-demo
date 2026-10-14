@@ -14,6 +14,41 @@ public class TaskEndpointTests : IClassFixture<WebApplicationFactory<Program>>
         _client = factory.CreateClient();
     }
 
+    [Theory]
+    [InlineData("InProgress", false)]
+    [InlineData("Done", true)]
+    public async Task PatchTaskStatus_UpdatesStatus(string status, bool isComplete)
+    {
+        var created = await (await _client.PostAsJsonAsync("/tasks", new { Title = "Status task" }))
+            .Content.ReadFromJsonAsync<TaskItem>();
+
+        var response = await _client.PatchAsJsonAsync($"/tasks/{created!.Id}/status", new { Status = status });
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var updated = await response.Content.ReadFromJsonAsync<TaskItem>();
+        Assert.Equal(Enum.Parse<TaskItemStatus>(status), updated!.Status);
+        Assert.Equal(isComplete, updated.IsComplete);
+    }
+
+    [Fact]
+    public async Task PatchTaskStatus_UnknownTask_ReturnsNotFound()
+    {
+        var response = await _client.PatchAsJsonAsync("/tasks/9999/status", new { Status = "Done" });
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task PatchTaskStatus_InvalidStatus_ReturnsBadRequest()
+    {
+        var created = await (await _client.PostAsJsonAsync("/tasks", new { Title = "Bad status" }))
+            .Content.ReadFromJsonAsync<TaskItem>();
+
+        var response = await _client.PatchAsJsonAsync($"/tasks/{created!.Id}/status", new { Status = "Nope" });
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
     [Fact]
     public async Task GetTasks_ReturnsEmptyList()
     {

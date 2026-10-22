@@ -1,0 +1,80 @@
+# {{project_name}} — GitHub Copilot instructions
+
+This file provides guidance to GitHub Copilot when working with code in this repository.
+
+## Project root and harness contract
+
+`project_root` is the actual bootstrapped project folder, which may be nested below the
+Git root. Resolve it once at run start: use the explicit absolute project folder supplied
+by the caller, or the session working directory if it contains
+`.github/.bootstrap-manifest.json`. If neither identifies it, ask for the project folder;
+do not guess from the Git root or search for an unrelated ancestor's `.github`.
+Confirm the marker and this instructions file belong to that folder.
+
+`harness_root` is the absolute `project_root/.github` directory. All local paths in these
+instructions, plans and file lists are **project-root-relative** unless explicitly absolute.
+Use native OS path separators when constructing paths. Run project commands at
+`project_root` unless an approved plan supplies a project-relative working directory.
+Do not persist machine-specific absolute roots in generated templates or committed plans.
+
+The coordinator passes absolute `project_root`, `harness_root`, and `artifact_root` to
+every worker. Workers use those inputs, never independently re-derive roots from their cwd.
+Read `<harness_root>/copilot-instructions.md` explicitly before stage work; also read
+`<harness_root>/instructions/tests.instructions.md` for planning/testing. Markdown links
+and `#file` references can aid discovery but do not guarantee content injection.
+If instructions are unreadable or roots disagree, return `status: blocked`, not a guess.
+
+## Shared stage-result contract
+
+Each worker is terminal: do its assigned stage and return to the same coordinator.
+Never invoke another agent, an orchestrator, a built-in task agent, or an alias.
+Only the coordinator fetches tickets. Stage payloads, not ambient ticket access, determine
+what each worker receives.
+
+Return these four fields for both normal work and qualification:
+
+```text
+status: passed|blocked|failed
+outputs: stage-specific plans, file lists, findings or proposals; include partial results
+evidence: actual reads/edits, command + cwd + exit code + result, or review references
+blocker: none when passed; otherwise kind, detail, and required resolution
+```
+
+`passed` requires that stage's actual output and evidence, not an acknowledgement.
+`blocked` means a missing decision, plan detail, authentication, tool capability or other
+prerequisite; `failed` means an attempted stage did not meet its gate (including red tests
+or verification FAIL). Preserve exact relevant errors; never fabricate execution evidence
+or hide partial changes. Report missing result fields as blocked, not implicit success.
+
+Execution workers also report `skill_source: injected|read|unavailable` and the skill's
+name/path, accurately describing how they obtained the full content. If unavailable, block.
+An injected skill is usable; an explicit read is the reliable fallback, not a failure.
+No mandatory claim that it was "preloaded".
+
+For `mode: qualification`, do only the coordinator's artifact-only capability probe and
+return its evidence; do not start feature work. In that mode, read-only workers read the
+supplied canary and common instructions and demonstrate search with an actual tool call
+scoped to `harness_root`; record the path/query/result and errors. They never edit or execute.
+Normal stage calls read their instructions and supplied stage inputs, not deleted canaries.
+This proves only those observed operations at that dispatch depth, not all future permissions.
+
+## Project
+
+{{project_description}}
+
+## Commands
+
+```bash
+{{build_command}}
+{{test_command}}
+{{test_filter_example}}
+{{run_command}}
+```
+
+## Architecture
+
+{{architecture_notes}}
+
+## Tests
+
+{{test_conventions}}

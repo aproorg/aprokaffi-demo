@@ -1,0 +1,10 @@
+{
+  "id": "dev-toolkit",
+  "name": "Developer Toolkit",
+  "version": "1.0.0",
+  "description": "Custom workflows for code auditing and PR generation.",
+  "components": {
+    "agents": ["./agents/code-auditor.agent.md"],
+    "skills": ["./skills/pr-reviewer"]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "aprokaffi-copilot-workshop",
+  "description": "Local GitHub Copilot marketplace for the Apro kaffi workshop",
+  "version": "1.1.0",
+  "owner": {
+    "name": "josuaApro"
+  },
+  "plugins": [
+    {
+      "name": "dev-tools-test",
+      "id": "dev-toolkit",
+      "source": "./plugins/dev-toolkit"
+    },
+    {
+      "name": "workshop-bootstrap",
+      "id": "workshop-bootstrap",
+      "source": "./plugins/workshop-bootstrap"
+    }
+  ]
+}

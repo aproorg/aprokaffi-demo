@@ -1,0 +1,34 @@
+{
+  "templateSet": "workshop-bootstrap",
+  "version": "0.3.0",
+  "variables": {
+    "project_name": "DemoTaskApi",
+    "project_description": ".NET 9 minimal API for managing tasks and owners with in-memory services, with xUnit unit and endpoint tests.",
+    "build_command": "dotnet build api-project\\DemoTaskApi.sln",
+    "test_command": "dotnet test api-project\\DemoTaskApi.sln",
+    "test_filter_example": "dotnet test api-project\\DemoTaskApi.sln --filter FullyQualifiedName~TaskServiceTests",
+    "test_path_glob": "**/*.Tests/**",
+    "run_command": "dotnet run --project api-project\\DemoTaskApi\\DemoTaskApi.csproj",
+    "architecture_notes": "Program.cs is the composition root: it registers ITaskService/ITaskOwnerService implementations as singletons, then maps minimal HTTP endpoints directly to those services. Services maintain process-local lists and incrementing IDs; task creation validates an optional owner reference. Request records and storage models live under Models; owner endpoints map storage objects to TaskOwnerDto. Match the existing interface-backed service design, endpoint response conventions, nullable C# style, and tests around service behavior and HTTP responses. There is no database or persistence layer.",
+    "test_conventions": "Tests live in the nested DemoTaskApi.Tests project and use xUnit. Service tests instantiate service classes directly; endpoint tests use Microsoft.AspNetCore.Mvc.Testing's WebApplicationFactory<Program> and HttpClient. Test classes/methods follow descriptive behavior-oriented names. Keep both unit-level service coverage and endpoint-level integration coverage.",
+    "security_context_description": "There is no authentication or persistent storage. The API accepts untrusted HTTP JSON input and route IDs; endpoint input validation, error handling and API data exposure are the principal relevant security concerns. This does not establish that repository or runtime secrets are absent.",
+    "ticket_source_description": "Jira, through the configured jira MCP server. Runtime namespace, tool availability and authentication remain unverified until actually checked.",
+    "ticket_tools": "'jira/*'",
+    "template_repo_location": "../test-copilot-marketplace (plugins/workshop-bootstrap/skills/bootstrap/assets/templates), relative to project_root. This local workshop source is a directory in the demo repository, not an installed plugin cache or a separate Git checkout. Retrospectives return proposals only."
+  },
+  "generatedFiles": [
+    ".github/copilot-instructions.md",
+    ".github/instructions/tests.instructions.md",
+    ".github/agents/implementation-agent.agent.md",
+    ".github/agents/feature-orchestrator.agent.md",
+    ".github/agents/feature-planner.agent.md",
+    ".github/agents/test-implementer.agent.md",
+    ".github/agents/verification-agent.agent.md",
+    ".github/agents/retro-agent.agent.md",
+    ".github/skills/implement-jira-ticket/SKILL.md",
+    ".github/skills/feature-implementation/SKILL.md",
+    ".github/skills/test-implementation/SKILL.md"
+  ],
+  "projectPathFromGitRoot": "copilot/phase-6",
+  "harnessPath": ".github"
+}

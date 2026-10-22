@@ -1,0 +1,9 @@
+{
+  "id": "workshop-bootstrap",
+  "name": "Workshop Bootstrap",
+  "version": "0.3.0",
+  "description": "Generates a project-scoped ticket-to-verified-feature GitHub Copilot workflow (copilot-instructions.md, custom agents, and skills) from a stack-agnostic template set.",
+  "components": {
+    "skills": ["./skills/bootstrap"]
+  }
+}

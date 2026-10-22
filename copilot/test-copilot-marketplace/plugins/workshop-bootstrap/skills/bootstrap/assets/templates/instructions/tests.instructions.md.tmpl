@@ -1,0 +1,14 @@
+---
+applyTo: "{{test_path_glob}}"
+---
+
+# Test instructions
+
+Paths are relative to the supplied `project_root`, which can be below the Git root.
+Use the supplied absolute `harness_root` to locate instructions, not the worker's cwd.
+
+{{test_conventions}}
+
+Run the suite at `project_root` with `{{test_command}}`, or scope it with
+`{{test_filter_example}}`. A scoped run does not replace the required full-suite gate.
+Record the actual command, cwd, exit code and result. A missing command blocks.
